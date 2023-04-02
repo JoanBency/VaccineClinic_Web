@@ -8,6 +8,7 @@ import About from './pages/About'
 import Blog from './pages/Blog'
 import Annual from './pages/Annual'
 import SignUp from './pages/Signup'
+import ListPatientContainer from './pages/patient/ListPatients'
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
         <Route path="/annual" element={<Annual />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/listpatients" element={<ListPatients />} />
+        <Route path="/listpatients" element={<ListPatientContainer />} />
 
       </Routes>
     </BrowserRouter>
