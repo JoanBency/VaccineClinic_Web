@@ -9,6 +9,10 @@ import Blog from './pages/Blog'
 import Annual from './pages/Annual'
 import SignUp from './pages/Signup'
 import ListPatientContainer from './pages/patient/ListPatients'
+import CreatePatientForm from './pages/patient/CreatePatients'
+import ListVaccineContainer from './pages/vaccine/ListVaccines'
+import CreateVaccineForm from './pages/vaccine/CreateVaccines'
+import ViewPatient from './pages/patient/ViewPatient'
 
 function App() {
   return (
@@ -23,6 +27,10 @@ function App() {
         <Route path="/blog" element={<Blog />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/listpatients" element={<ListPatientContainer />} />
+        <Route path="/createpatient" element={<CreatePatientForm />} />
+        <Route path="/listvaccines" element={<ListVaccineContainer />} />
+        <Route path="/createvaccine" element={<CreateVaccineForm />} />
+        <Route path="/viewpatient/:id" element={<ViewPatient />} />
 
       </Routes>
     </BrowserRouter>

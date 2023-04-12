@@ -1,45 +1,44 @@
 import React from 'react';
 // import axios from "axios";
 // import { connect } from 'react-redux';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { formatPhoneNumberIntl } from 'react-phone-number-input';
+// import history from '../../Helpers/history';
 // import { render } from '@testing-library/react';
 // import { getPatients } from '../../actions/patientActions';
-
+import { withRouter } from '../../libraries/withRouter';
 
 class ListPatientContainer extends React.Component {
   constructor(props) {
     super(props);
+    this.handleRowClick = this.handleRowClick.bind(this);
     this.state = {
       apiResponse: {}
     };
 }
     componentDidMount() {
         try {
-        //     const response = axios.get("http://localhost:3001/patients")
-        //     console.log(response.data);
-        //   } catch (error) {
-        //     console.error(error);
-        //   }
-            fetch('http://localhost:3001/patients',
-            //  {
-            //     mode: 'cors',
-            //     method: 'GET',
-            //     headers: {
-            //          "Content-Type": "application/json"
-            //     } }
+            fetch(`${process.env.REACT_APP_API_URL}/patients`,
                 )
                 .then(response => response.json())
                 .then(data => {
                     this.setState({ apiResponse: data });
-                    console.log(this.state.apiResponse);
-                    console.log(data);
-
                 });
         } catch (error) {
             console.log(error);
         }
     }
+
+
+    handleRowClick(row) {        
+        this.props.navigate(`/viewpatient/${row.PatientId}`,
+        {
+            state: {
+                row: row
+            }
+        });
+    }
+
     render() {
         let { apiResponse } = this.state;
         return (
@@ -50,10 +49,11 @@ class ListPatientContainer extends React.Component {
                             <div className="col-12">
                                 <div className="card">
                                     <div className="card-body">
-                                        <h4 className="card-title">Patient List</h4>
+                                        <h2 className="card-title">Patient List</h2>
+                                        <a href="/createpatient"><button type="button" className="btn btn-primary btn-rounded mb-3">Add Patient</button></a>
                                         <div className="table-responsive">
                                             <table className="table table-striped table-bordered zero-configuration">
-                                                <thead>
+                                                <thead style={{height: 40}}>
                                                     <th>Patient Id</th>
                                                     <th>Patient Name</th>
                                                     <th>Age</th>
@@ -68,17 +68,18 @@ class ListPatientContainer extends React.Component {
                                                 ? apiResponse.map((row) => (
                                                 <tbody style={{
                                                     backgroundColor: '#white',
-                                                }}>
-                                                    <tr>
+                                                    height: 60
+                                                }}>                                                    
+                                                    <tr onClick={() => this.handleRowClick(row)}>
                                                         <td className="text-capitalize">{row.PatientId}</td>
                                                         <td className="text-capitalize">{row.PatientName}</td>
                                                         <td className="text-capitalize">{row.Age}</td>
-                                                        <td className="text-capitalize">{row.patientGender}</td>
-                                                        <td className="text-capitalize">{row.patientVaccine}</td>
-                                                        <td className="text-capitalize">{row.patientAddress}</td>
-                                                        <td className="td-fit">{formatPhoneNumberIntl(row.patientPhone)}</td>
-                                                        <td className="overflowText w-10">{row.patientEmail}</td>
-                                                        <td className="text-capitalize">{row.patientDoctor}</td>
+                                                        <td className="text-capitalize">{row.PatientGender}</td>
+                                                        <td className="text-capitalize">{row.PatientVaccine}</td>
+                                                        <td className="text-capitalize">{row.PatientAddress}</td>
+                                                        <td className="td-fit">{formatPhoneNumberIntl(row.PatientPhone)}</td>
+                                                        <td className="overflowText w-10">{row.PatientEmail}</td>
+                                                        <td className="text-capitalize">{row.PatientDoctor}</td>
                                                     </tr>
                                                 </tbody>
                                                 ))
@@ -96,4 +97,4 @@ class ListPatientContainer extends React.Component {
     }
 }
 
-export default ListPatientContainer;
+export default withRouter(ListPatientContainer);

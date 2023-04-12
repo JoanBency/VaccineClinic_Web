@@ -14,8 +14,8 @@ const Navbar = () => {
           <MenuLink to="/" activeStyle>
             Home
           </MenuLink>
-          <MenuLink to="/about" activeStyle>
-            About
+          <MenuLink to="/listvaccines" activeStyle>
+            Vaccines
           </MenuLink>
           <MenuLink to="/annual" activeStyle>
             Annual Report
