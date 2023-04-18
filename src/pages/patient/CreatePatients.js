@@ -3,9 +3,13 @@ import { Link } from 'react-router-dom';
 import {useNavigate} from "react-router-dom";
 import { Form, Button, Container, Alert } from 'react-bootstrap';
 import axios from 'axios';
+// import { Select } from 'semantic-ui-react';
+import Select from "react-select";
+
 
 const CreatePatientForm = () => {
         const navigate = useNavigate();
+        const [apiResponse, setApiResponse] = useState([]);
         const [PatientName, setPatientName] = useState('');
         const [Age, setAge] = useState('');
         const [PatientGender, setPatientGender] = useState('');
@@ -37,8 +41,15 @@ const CreatePatientForm = () => {
             setPatientNotes(event.target.value);
         }
         const PatientDoctorChangeHandler = (event) => {
-            setPatientDoctor(event.target.value);
+            setPatientDoctor(event);
         }
+
+        fetch(`https://o97v5r6uy4.execute-api.us-east-1.amazonaws.com/`)
+            .then(response => response.json())
+            .then(data => {
+                // setApiResponse(data.map(function(d){return {value: Object.values(d)[1], label: Object.values(d)[1] }}));
+                setApiResponse(data.map((data, index) => { return { value: data.doctorName, label: data.doctorName }}));
+            });
 
         const submitActionHandler = (event) => {
             event.preventDefault();
@@ -50,7 +61,7 @@ const CreatePatientForm = () => {
                 'PatientPhone': PatientPhone,
                 'PatientEmail': PatientEmail,
                 'PatientNotes': PatientNotes,
-                'PatientDoctor': PatientDoctor
+                'PatientDoctor': PatientDoctor.value
             }
             fetch(`${process.env.REACT_APP_API_URL}/patients`, {
                 method: 'POST',
@@ -135,7 +146,11 @@ const CreatePatientForm = () => {
                                         <div className='col-sm-6'>
                                             <Form.Group className='mb-3' controlId="form.PatientDoctor">
                                                 <Form.Label>Patient Doctor</Form.Label>
-                                                <Form.Control type='textarea' placeholder='Enter Patient Doctor' value={PatientDoctor} onChange={PatientDoctorChangeHandler} />
+                                                <div className="dropdown-container">
+                                                    <Select options={apiResponse} onChange={PatientDoctorChangeHandler} value={PatientDoctor} placeholder="Select Doctor..." />
+                                                </div>
+                                                {/* <Dropdown placeHolder="Select a Doctor ..." options={apiResponse} /> */}
+                                                {/* <Form.Control type='textarea' placeholder='Enter Patient Doctor' value={PatientDoctor} onChange={PatientDoctorChangeHandler} /> */}
                                             </Form.Group>
                                         </div>
                                         <div className='col-sm-12' style={{

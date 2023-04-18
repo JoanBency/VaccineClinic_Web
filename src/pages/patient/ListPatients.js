@@ -58,7 +58,6 @@ class ListPatientContainer extends React.Component {
                                                     <th>Patient Name</th>
                                                     <th>Age</th>
                                                     <th>Gender</th>
-                                                    <th>Vaccines Taken For</th>
                                                     <th>Address</th>
                                                     <th>Phone</th>
                                                     <th>Email</th>
@@ -75,7 +74,6 @@ class ListPatientContainer extends React.Component {
                                                         <td className="text-capitalize">{row.PatientName}</td>
                                                         <td className="text-capitalize">{row.Age}</td>
                                                         <td className="text-capitalize">{row.PatientGender}</td>
-                                                        <td className="text-capitalize">{row.PatientVaccine}</td>
                                                         <td className="text-capitalize">{row.PatientAddress}</td>
                                                         <td className="td-fit">{formatPhoneNumberIntl(row.PatientPhone)}</td>
                                                         <td className="overflowText w-10">{row.PatientEmail}</td>

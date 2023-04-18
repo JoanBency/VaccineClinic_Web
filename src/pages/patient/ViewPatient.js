@@ -3,12 +3,26 @@ import { Link, useLocation } from 'react-router-dom';
 import { Button, Table, Col, Container, Form, Row } from 'react-bootstrap';
 import { Card } from 'react-bootstrap';
 import { formatPhoneNumberIntl } from 'react-phone-number-input';
+import Select from "react-select";
+import {useNavigate} from "react-router-dom";
+
 
 const ViewPatient = (props) => {
-    
+        const navigate = useNavigate();
         const { state } = useLocation();
         const [apiResponse, setApiResponse] = useState([]);
+        const [NewVaccineEntry, setNewVaccineEntry] = useState(false);
+        const [ VaccineData, setVaccineData] = useState([]);
+        const [ NurseData, setNurseData] = useState([]);
         const { row } = state;
+
+        const VaccineDataChangeHandler = (event) => {
+            setVaccineData(event);
+        }
+        const NurseDataChangeHandler = (event) => {
+            setNurseData(event);
+        }
+
         try {
             fetch(`${process.env.REACT_APP_API_URL}/vaccinesAdministered/${row.PatientId}`,
                 )
@@ -20,6 +34,50 @@ const ViewPatient = (props) => {
         } catch (error) {
             console.log(error);
         }
+
+        function newEntry() {
+            setNewVaccineEntry(true);
+            fetch(`https://qt6xfeyzbg.execute-api.us-east-1.amazonaws.com/dev/availvaccines`,)
+            .then(response => response.json())
+            .then(data => {
+                setVaccineData(data.map((data, index) => { return { value: data.VaccineId, label: `${data.VaccineName} - ${data.DiseaseTargeted}` }}));
+            });    
+        }
+
+        const submitActionHandler = (event) => {
+            event.preventDefault();
+            var data = {
+                'PatientId': row.PatientId,
+                'VaccineId': VaccineData.value,
+                'NurseId': NurseData.value,
+
+            }
+            console.log(data);
+            fetch(`${process.env.REACT_APP_API_URL}/vaccinesAdministered`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            }) 
+                .then((response) => {
+                    alert("Vaccine " + VaccineData.label + " has been added successfully");
+                    navigate(`/viewpatient/${row.PatientId}`);
+                }).catch((error) => {
+                    alert("Vaccine " + VaccineData.label + " has not been added successfully");
+                    console.log(error);
+                });
+            setNewVaccineEntry(false);
+        }
+
+        const cancelActionHandler = () => {
+            setNewVaccineEntry(false);
+            setVaccineData([]);
+            setNurseData([]);
+            navigate('/listpatients');
+    }
+
+
         return (
             <>
                 <React.Fragment>
@@ -78,7 +136,12 @@ const ViewPatient = (props) => {
                                             </Col>
                                             <Col md={6}>
                                                 <h5 className='card-title'>Patient Vaccine</h5>
-                                                <p className='card-text'>{row.PatientVaccine}</p>
+                                                {apiResponse.map((data, index) => {
+                                                    return (
+                                                        <p className='card-text'>{`${data.VaccineName} - ${data.DiseaseTargeted}`}</p>
+                                                    )
+                                                })}
+                                                
                                             </Col>
                                         </Row>
                                         <Row>
@@ -97,7 +160,7 @@ const ViewPatient = (props) => {
                                 <div className="card">
                                     <div className="card-body">
                                         <h2 className="card-title">Vaccine Administered List</h2>
-                                        <a href="/"><button type="button" className="btn btn-primary btn-rounded mb-3">New Vaccine</button></a>
+                                        <button type="button" onClick={newEntry} className="btn btn-primary btn-rounded mb-3">New Vaccine</button>
                                         <div className="table-responsive">
                                             <table className="table table-striped table-bordered zero-configuration">
                                                 <thead style={{height: 40}}>
@@ -117,7 +180,7 @@ const ViewPatient = (props) => {
                                                         <td className="text-capitalize">{rows.VaccineEntryId}</td>
                                                         <td className="text-capitalize">{rows.VaccineName}</td>
                                                         <td className="text-capitalize">{rows.DiseaseTargeted}</td>
-                                                        <td className="text-capitalize">{rows.AdministeredBy}</td>
+                                                        <td className="text-capitalize">{rows.NurseName}</td>
                                                         <td className="text-capitalize">{rows.AdministeredOn}</td>
                                                     </tr>
                                                 </tbody>
