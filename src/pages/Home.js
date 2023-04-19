@@ -55,7 +55,7 @@ const Home = () => {
             paddingTop: 5,
             fontSize: 20,
             alignItems: 'justify'
-          }}>We are a non-profit organization that provides free vaccines to children in need. We are dedicated to helping children in need get the vaccines they need to stay healthy.
+          }}>We are a non-profit organization that provides free vaccines to people in need. We are dedicated to helping people in need get the vaccines they need to stay healthy.
           </p>
           <a href="/listpatients">
             <button type="button" style={{

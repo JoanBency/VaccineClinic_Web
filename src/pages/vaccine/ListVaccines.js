@@ -29,7 +29,7 @@ class ListVaccineContainer extends React.Component {
 
 
     handleRowClick(row) {
-        this.props.history.push('/');
+        // this.props.history.push('/');
     }
 
     render() {

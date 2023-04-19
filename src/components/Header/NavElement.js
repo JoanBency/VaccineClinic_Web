@@ -44,6 +44,7 @@ export const MenuLink = styled(Link)`
   align-items: center;
   text-decoration: none;
   padding: 0 1.2rem;
+  margin-right: 10px;
   height: 100%;
   &.active {
     color: #0c676e;
@@ -67,4 +68,15 @@ export const Menu = styled.div`
   @media screen and (max-width: 768px) {
     
   }
+`
+
+export const GridContainer = styled.div`
+  display: grid;
+  grid-template-columns: auto auto auto;
+`
+
+export const GridItem = styled.div`
+  border: none;
+  text-align: center;
+  padding-left: 30px;
 `
