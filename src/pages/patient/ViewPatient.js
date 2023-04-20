@@ -28,7 +28,7 @@ const ViewPatient = (props) => {
         }
 
         try {
-            fetch(`${process.env.REACT_APP_API_URL}/vaccinesAdministered/${row.PatientId}`,
+            fetch(`http://vaccineclinicapi-env.eba-ca22d9uc.us-east-1.elasticbeanstalk.com/vaccinesAdministered/${row.PatientId}`,
                 )
                 .then(response => response.json())
                 .then(data => {
@@ -52,7 +52,7 @@ const ViewPatient = (props) => {
 
                 setVaccineId(data[0].VaccinationId);
 
-                fetch(`${process.env.REACT_APP_API_URL}/vaccines/${data[0].VaccinationId}`,)
+                fetch(`http://vaccineclinicapi-env.eba-ca22d9uc.us-east-1.elasticbeanstalk.com/vaccines/${data[0].VaccinationId}`,)
                         .then(res => res.json())
                         .then(data1 => {
                             setVaccineName(data1.map((vaccine) => {return(vaccine.VaccineName)}) );
@@ -84,7 +84,7 @@ const ViewPatient = (props) => {
                 'PrescriptionId': PrescriptionId,
             }
 
-            fetch(`${process.env.REACT_APP_API_URL}/vaccinesAdministered`, {
+            fetch(`http://vaccineclinicapi-env.eba-ca22d9uc.us-east-1.elasticbeanstalk.com/vaccinesAdministered`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

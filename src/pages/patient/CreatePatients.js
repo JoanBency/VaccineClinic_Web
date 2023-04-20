@@ -63,7 +63,7 @@ const CreatePatientForm = () => {
                 'PatientNotes': PatientNotes,
                 'PatientDoctor': PatientDoctor.value
             }
-            fetch(`${process.env.REACT_APP_API_URL}/patients`, {
+            fetch(`http://vaccineclinicapi-env.eba-ca22d9uc.us-east-1.elasticbeanstalk.com/patients`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
