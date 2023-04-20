@@ -33,7 +33,7 @@ const CreateVaccineForm = () => {
                 'Manufacturer': Manufacturer,
                 'Doses': Doses
             }
-            fetch(`http://vaccineclinicapi-env.eba-ca22d9uc.us-east-1.elasticbeanstalk.com/vaccines`, {
+            fetch(`https://br2hh2tztg.execute-api.eu-west-1.amazonaws.com/vaccines`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

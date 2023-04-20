@@ -18,7 +18,7 @@ class ListPatientContainer extends React.Component {
 }
     componentDidMount() {
         try {
-            fetch(`http://vaccineclinicapi-env.eba-ca22d9uc.us-east-1.elasticbeanstalk.com/patients`,
+            fetch(`https://br2hh2tztg.execute-api.eu-west-1.amazonaws.com/patients`,
                 )
                 .then(response => response.json())
                 .then(data => {
